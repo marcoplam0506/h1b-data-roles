@@ -1,0 +1,664 @@
+{
+ "meta": {
+  "certified_total": 1760784,
+  "data_roles": 107632,
+  "new_positions": 35203,
+  "wage_sample": 32699,
+  "cpi_fy2023_to_fy2025_pct": 5.86
+ },
+ "composition": [
+  {
+   "role": "Data Scientist",
+   "n": 37970,
+   "pct": 35.3
+  },
+  {
+   "role": "Data Engineer",
+   "n": 34810,
+   "pct": 32.3
+  },
+  {
+   "role": "Data Analyst",
+   "n": 20118,
+   "pct": 18.7
+  },
+  {
+   "role": "Business Intelligence",
+   "n": 13020,
+   "pct": 12.1
+  },
+  {
+   "role": "Data Architect",
+   "n": 1714,
+   "pct": 1.6
+  }
+ ],
+ "growth": [
+  {
+   "role": "Data Analyst",
+   "all_pct": 5.5,
+   "new_pct": 27.8
+  },
+  {
+   "role": "Data Scientist",
+   "all_pct": 13.2,
+   "new_pct": 17.3
+  },
+  {
+   "role": "Data Engineer",
+   "all_pct": 4.4,
+   "new_pct": 14.4
+  },
+  {
+   "role": "Business Intelligence",
+   "all_pct": -11.5,
+   "new_pct": -10.5
+  },
+  {
+   "role": "Data Architect",
+   "all_pct": -6.4,
+   "new_pct": -21.3
+  }
+ ],
+ "realwage": [
+  {
+   "role": "Data Analyst",
+   "fy2023": 94213,
+   "fy2025": 86472,
+   "pct": -8.2
+  },
+  {
+   "role": "Data Scientist",
+   "fy2023": 132322,
+   "fy2025": 130000,
+   "pct": -1.8
+  },
+  {
+   "role": "Data Engineer",
+   "fy2023": 105116,
+   "fy2025": 100000,
+   "pct": -4.9
+  },
+  {
+   "role": "Business Intelligence",
+   "fy2023": 104031,
+   "fy2025": 92050,
+   "pct": -11.5
+  },
+  {
+   "role": "Data Architect",
+   "fy2023": 114192,
+   "fy2025": 104416,
+   "pct": -8.6
+  }
+ ],
+ "levels": {
+  "Data Analyst": [
+   {
+    "fy": "2023",
+    "I": 37.8,
+    "II": 48.2,
+    "III": 9.7,
+    "IV": 4.3
+   },
+   {
+    "fy": "2024",
+    "I": 42.3,
+    "II": 47.0,
+    "III": 7.5,
+    "IV": 3.2
+   },
+   {
+    "fy": "2025",
+    "I": 49.4,
+    "II": 40.9,
+    "III": 7.3,
+    "IV": 2.4
+   }
+  ],
+  "Business Intelligence": [
+   {
+    "fy": "2023",
+    "I": 36.8,
+    "II": 49.1,
+    "III": 10.2,
+    "IV": 3.9
+   },
+   {
+    "fy": "2024",
+    "I": 36.9,
+    "II": 51.8,
+    "III": 9.0,
+    "IV": 2.3
+   },
+   {
+    "fy": "2025",
+    "I": 43.9,
+    "II": 46.1,
+    "III": 8.8,
+    "IV": 1.2
+   }
+  ],
+  "Data Scientist": [
+   {
+    "fy": "2023",
+    "I": 21.5,
+    "II": 48.8,
+    "III": 19.6,
+    "IV": 10.0
+   },
+   {
+    "fy": "2024",
+    "I": 23.1,
+    "II": 49.8,
+    "III": 18.1,
+    "IV": 9.0
+   },
+   {
+    "fy": "2025",
+    "I": 24.4,
+    "II": 46.0,
+    "III": 19.7,
+    "IV": 9.9
+   }
+  ]
+ },
+ "heatmap": [
+  {
+   "role": "Data Analyst",
+   "I": -7.5,
+   "I_n": 3348,
+   "II": -3.9,
+   "II_n": 3482,
+   "III": 6.8,
+   "III_n": 623,
+   "IV": -1.3,
+   "IV_n": 249
+  },
+  {
+   "role": "Data Scientist",
+   "I": -13.0,
+   "I_n": 2831,
+   "II": -2.1,
+   "II_n": 5907,
+   "III": 2.4,
+   "III_n": 2355,
+   "IV": 8.6,
+   "IV_n": 1187
+  },
+  {
+   "role": "Data Engineer",
+   "I": -9.9,
+   "I_n": 2554,
+   "II": -1.1,
+   "II_n": 4313,
+   "III": 1.9,
+   "III_n": 815,
+   "IV": 18.9,
+   "IV_n": 329
+  },
+  {
+   "role": "Business Intelligence",
+   "I": -11.1,
+   "I_n": 1154,
+   "II": -6.7,
+   "II_n": 1458,
+   "III": -0.3,
+   "III_n": 280,
+   "IV": 5.8,
+   "IV_n": 76
+  },
+  {
+   "role": "Data Architect",
+   "I": -6.6,
+   "I_n": 46,
+   "II": -10.0,
+   "II_n": 114,
+   "III": -8.6,
+   "III_n": 55,
+   "IV": -3.9,
+   "IV_n": 24
+  }
+ ],
+ "employers": [
+  {
+   "name": "Capital One",
+   "n": 232,
+   "kind": "银行"
+  },
+  {
+   "name": "Kforce",
+   "n": 163,
+   "kind": "派遣"
+  },
+  {
+   "name": "Exlservicecom",
+   "n": 94,
+   "kind": "外包"
+  },
+  {
+   "name": "Wells Fargo Bank",
+   "n": 93,
+   "kind": "银行"
+  },
+  {
+   "name": "Capgemini America",
+   "n": 77,
+   "kind": "咨询"
+  },
+  {
+   "name": "Wal-Mart Associates",
+   "n": 72,
+   "kind": "零售"
+  },
+  {
+   "name": "Deloitte & Touche",
+   "n": 67,
+   "kind": "咨询"
+  },
+  {
+   "name": "Solstice Solutions",
+   "n": 62,
+   "kind": "外包"
+  },
+  {
+   "name": "Citibank",
+   "n": 60,
+   "kind": "银行"
+  },
+  {
+   "name": "Intuit",
+   "n": 47,
+   "kind": "科技"
+  },
+  {
+   "name": "Zs Associates",
+   "n": 44,
+   "kind": "咨询"
+  },
+  {
+   "name": "Onemain General",
+   "n": 44,
+   "kind": "其他"
+  },
+  {
+   "name": "Johns Hopkins University",
+   "n": 34,
+   "kind": "其他"
+  },
+  {
+   "name": "Tiger Analytics",
+   "n": 34,
+   "kind": "其他"
+  }
+ ],
+ "geo": {
+  "Data Analyst": [
+   {
+    "city": "New York",
+    "n": 606,
+    "pct": 6.7
+   },
+   {
+    "city": "Chicago",
+    "n": 253,
+    "pct": 2.8
+   },
+   {
+    "city": "Mclean",
+    "n": 206,
+    "pct": 2.3
+   },
+   {
+    "city": "Dallas",
+    "n": 186,
+    "pct": 2.1
+   },
+   {
+    "city": "Boston",
+    "n": 173,
+    "pct": 1.9
+   },
+   {
+    "city": "Atlanta",
+    "n": 168,
+    "pct": 1.9
+   },
+   {
+    "city": "Plano",
+    "n": 154,
+    "pct": 1.7
+   },
+   {
+    "city": "Houston",
+    "n": 146,
+    "pct": 1.6
+   },
+   {
+    "city": "Charlotte",
+    "n": 145,
+    "pct": 1.6
+   },
+   {
+    "city": "Irving",
+    "n": 137,
+    "pct": 1.5
+   },
+   {
+    "city": "Jersey City",
+    "n": 135,
+    "pct": 1.5
+   },
+   {
+    "city": "San Francisco",
+    "n": 123,
+    "pct": 1.4
+   }
+  ],
+  "Data Scientist": [
+   {
+    "city": "New York",
+    "n": 1095,
+    "pct": 8.1
+   },
+   {
+    "city": "San Jose",
+    "n": 714,
+    "pct": 5.3
+   },
+   {
+    "city": "Seattle",
+    "n": 665,
+    "pct": 4.9
+   },
+   {
+    "city": "San Francisco",
+    "n": 509,
+    "pct": 3.7
+   },
+   {
+    "city": "Sunnyvale",
+    "n": 425,
+    "pct": 3.1
+   },
+   {
+    "city": "Bellevue",
+    "n": 399,
+    "pct": 2.9
+   },
+   {
+    "city": "San Diego",
+    "n": 321,
+    "pct": 2.4
+   },
+   {
+    "city": "Chicago",
+    "n": 296,
+    "pct": 2.2
+   },
+   {
+    "city": "Boston",
+    "n": 278,
+    "pct": 2.0
+   },
+   {
+    "city": "Santa Clara",
+    "n": 275,
+    "pct": 2.0
+   },
+   {
+    "city": "Palo Alto",
+    "n": 272,
+    "pct": 2.0
+   },
+   {
+    "city": "Atlanta",
+    "n": 267,
+    "pct": 2.0
+   }
+  ],
+  "Data Engineer": [
+   {
+    "city": "Irving",
+    "n": 370,
+    "pct": 4.2
+   },
+   {
+    "city": "Seattle",
+    "n": 290,
+    "pct": 3.3
+   },
+   {
+    "city": "New York",
+    "n": 269,
+    "pct": 3.0
+   },
+   {
+    "city": "Plano",
+    "n": 263,
+    "pct": 3.0
+   },
+   {
+    "city": "Austin",
+    "n": 251,
+    "pct": 2.8
+   },
+   {
+    "city": "Dallas",
+    "n": 229,
+    "pct": 2.6
+   },
+   {
+    "city": "San Jose",
+    "n": 181,
+    "pct": 2.0
+   },
+   {
+    "city": "Chicago",
+    "n": 163,
+    "pct": 1.8
+   },
+   {
+    "city": "Houston",
+    "n": 160,
+    "pct": 1.8
+   },
+   {
+    "city": "Atlanta",
+    "n": 149,
+    "pct": 1.7
+   },
+   {
+    "city": "Charlotte",
+    "n": 133,
+    "pct": 1.5
+   },
+   {
+    "city": "Frisco",
+    "n": 133,
+    "pct": 1.5
+   }
+  ],
+  "Business Intelligence": [
+   {
+    "city": "Seattle",
+    "n": 243,
+    "pct": 6.9
+   },
+   {
+    "city": "New York",
+    "n": 175,
+    "pct": 5.0
+   },
+   {
+    "city": "Bellevue",
+    "n": 104,
+    "pct": 3.0
+   },
+   {
+    "city": "Austin",
+    "n": 92,
+    "pct": 2.6
+   },
+   {
+    "city": "Dallas",
+    "n": 77,
+    "pct": 2.2
+   },
+   {
+    "city": "Houston",
+    "n": 72,
+    "pct": 2.0
+   },
+   {
+    "city": "Chicago",
+    "n": 64,
+    "pct": 1.8
+   },
+   {
+    "city": "Irving",
+    "n": 59,
+    "pct": 1.7
+   },
+   {
+    "city": "Plano",
+    "n": 51,
+    "pct": 1.5
+   },
+   {
+    "city": "Boston",
+    "n": 48,
+    "pct": 1.4
+   },
+   {
+    "city": "Atlanta",
+    "n": 47,
+    "pct": 1.3
+   },
+   {
+    "city": "Jersey City",
+    "n": 43,
+    "pct": 1.2
+   }
+  ]
+ },
+ "dist": [
+  {
+   "role": "Data Scientist",
+   "n": 13123,
+   "p10": 82056,
+   "p25": 99000,
+   "p50": 126277,
+   "p75": 157800,
+   "p90": 185000
+  },
+  {
+   "role": "Data Engineer",
+   "n": 8257,
+   "p10": 75000,
+   "p25": 85000,
+   "p50": 100000,
+   "p75": 120400,
+   "p90": 145600
+  },
+  {
+   "role": "Data Architect",
+   "n": 243,
+   "p10": 79492,
+   "p25": 92040,
+   "p50": 105746,
+   "p75": 128057,
+   "p90": 160000
+  },
+  {
+   "role": "Business Intelligence",
+   "n": 3087,
+   "p10": 70000,
+   "p25": 80745,
+   "p50": 92560,
+   "p75": 112050,
+   "p90": 135000
+  },
+  {
+   "role": "Data Analyst",
+   "n": 7989,
+   "p10": 65000,
+   "p25": 74900,
+   "p50": 87152,
+   "p75": 104062,
+   "p90": 125117
+  }
+ ],
+ "titles": {
+  "unique": 304892,
+  "total": 1760784,
+  "once": 202291,
+  "once_share": 11.5,
+  "curve": [
+   {
+    "k": 1,
+    "pct": 5.0
+   },
+   {
+    "k": 5,
+    "pct": 11.7
+   },
+   {
+    "k": 10,
+    "pct": 14.4
+   },
+   {
+    "k": 25,
+    "pct": 19.4
+   },
+   {
+    "k": 50,
+    "pct": 24.6
+   },
+   {
+    "k": 100,
+    "pct": 30.5
+   },
+   {
+    "k": 250,
+    "pct": 39.1
+   },
+   {
+    "k": 500,
+    "pct": 46.0
+   },
+   {
+    "k": 1000,
+    "pct": 52.9
+   },
+   {
+    "k": 2500,
+    "pct": 61.1
+   },
+   {
+    "k": 5000,
+    "pct": 66.8
+   },
+   {
+    "k": 10000,
+    "pct": 71.8
+   },
+   {
+    "k": 25000,
+    "pct": 77.8
+   },
+   {
+    "k": 50000,
+    "pct": 82.5
+   },
+   {
+    "k": 100000,
+    "pct": 88.2
+   },
+   {
+    "k": 304892,
+    "pct": 100.0
+   }
+  ]
+ }
+}

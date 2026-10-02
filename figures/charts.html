@@ -1,0 +1,302 @@
+<title>H-1B 数据岗分析</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<style>
+:root{
+  --plane:#f9f9f7; --surface:#fcfcfb;
+  --ink:#0b0b0b; --ink2:#52514e; --muted:#898781;
+  --grid:#e1e0d9; --axis:#c3c2b7; --ring:rgba(11,11,11,.10);
+  --s1:#2a78d6; --s2:#eb6834;
+  --o1:#86b6ef; --o2:#3987e5; --o3:#1c5cab; --o4:#0d366b;
+  --neutral:#f0efec;
+  --sans:"IBM Plex Sans","Noto Sans SC",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --plane:#0d0d0d; --surface:#1a1a19;
+  --ink:#fff; --ink2:#c3c2b7; --muted:#898781;
+  --grid:#2c2c2a; --axis:#383835; --ring:rgba(255,255,255,.10);
+  --s1:#3987e5; --s2:#d95926;
+  --o1:#9ec5f4; --o2:#6da7ec; --o3:#2a78d6; --o4:#184f95;
+  --neutral:#383835;
+}}
+:root[data-theme="dark"]{
+  --plane:#0d0d0d; --surface:#1a1a19;
+  --ink:#fff; --ink2:#c3c2b7; --muted:#898781;
+  --grid:#2c2c2a; --axis:#383835; --ring:rgba(255,255,255,.10);
+  --s1:#3987e5; --s2:#d95926;
+  --o1:#9ec5f4; --o2:#6da7ec; --o3:#2a78d6; --o4:#184f95;
+  --neutral:#383835;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--plane);color:var(--ink);font:15px/1.6 var(--sans)}
+.wrap{max-width:900px;margin:0 auto;padding:34px 20px 70px}
+h1{font-size:24px;margin:0 0 6px;letter-spacing:-.01em}
+.sub{color:var(--ink2);font-size:14px;margin:0 0 6px}
+.meta{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin:0 0 30px}
+
+figure{margin:0 0 30px;background:var(--surface);border:1px solid var(--ring);border-radius:8px;padding:20px 20px 16px}
+figcaption{margin:0 0 3px;font-size:16px;font-weight:600}
+.why{margin:0 0 16px;font-size:13px;color:var(--ink2);line-height:1.5}
+svg{display:block;width:100%;height:auto;overflow:visible}
+.lbl{font-family:var(--sans);font-size:12.5px;fill:var(--ink2)}
+.val{font-family:var(--mono);font-size:12px;fill:var(--ink);font-weight:500}
+.ax{font-family:var(--mono);font-size:11px;fill:var(--muted)}
+.gl{stroke:var(--grid);stroke-width:1}
+.base{stroke:var(--axis);stroke-width:1}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin:0 0 12px;font-size:12.5px;color:var(--ink2)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.note{font-size:11.5px;color:var(--muted);margin:10px 0 0;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-size:12.5px;margin-top:12px}
+th,td{text-align:right;padding:5px 8px;border-bottom:1px solid var(--grid);font-variant-numeric:tabular-nums}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--muted);font-weight:500;font-family:var(--mono);font-size:11px}
+details{margin-top:10px}
+summary{cursor:pointer;font-size:12px;color:var(--muted);font-family:var(--mono)}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--plane);
+  font:12px/1.45 var(--sans);padding:6px 9px;border-radius:5px;opacity:0;transition:opacity .1s;z-index:9;max-width:230px}
+.tip.on{opacity:1}
+</style>
+
+<div class="wrap">
+<h1>那份不存在的工作</h1>
+<p class="sub">美国标准职业分类里没有 Data Analyst 这个编号。这是从 176 万条 H-1B 认证记录里把它重建出来之后看到的东西。</p>
+<p class="meta" id="meta"></p>
+<div id="out"></div>
+</div>
+<div class="tip" id="tip"></div>
+
+<script>
+const D = {"meta": {"certified_total": 1760784, "data_roles": 107632, "new_positions": 35203, "wage_sample": 32699, "cpi_fy2023_to_fy2025_pct": 5.86}, "composition": [{"role": "Data Scientist", "n": 37970, "pct": 35.3}, {"role": "Data Engineer", "n": 34810, "pct": 32.3}, {"role": "Data Analyst", "n": 20118, "pct": 18.7}, {"role": "Business Intelligence", "n": 13020, "pct": 12.1}, {"role": "Data Architect", "n": 1714, "pct": 1.6}], "growth": [{"role": "Data Analyst", "all_pct": 5.5, "new_pct": 27.8}, {"role": "Data Scientist", "all_pct": 13.2, "new_pct": 17.3}, {"role": "Data Engineer", "all_pct": 4.4, "new_pct": 14.4}, {"role": "Business Intelligence", "all_pct": -11.5, "new_pct": -10.5}, {"role": "Data Architect", "all_pct": -6.4, "new_pct": -21.3}], "realwage": [{"role": "Data Analyst", "fy2023": 94213, "fy2025": 86472, "pct": -8.2}, {"role": "Data Scientist", "fy2023": 132322, "fy2025": 130000, "pct": -1.8}, {"role": "Data Engineer", "fy2023": 105116, "fy2025": 100000, "pct": -4.9}, {"role": "Business Intelligence", "fy2023": 104031, "fy2025": 92050, "pct": -11.5}, {"role": "Data Architect", "fy2023": 114192, "fy2025": 104416, "pct": -8.6}], "levels": {"Data Analyst": [{"fy": "2023", "I": 37.8, "II": 48.2, "III": 9.7, "IV": 4.3}, {"fy": "2024", "I": 42.3, "II": 47.0, "III": 7.5, "IV": 3.2}, {"fy": "2025", "I": 49.4, "II": 40.9, "III": 7.3, "IV": 2.4}], "Business Intelligence": [{"fy": "2023", "I": 36.8, "II": 49.1, "III": 10.2, "IV": 3.9}, {"fy": "2024", "I": 36.9, "II": 51.8, "III": 9.0, "IV": 2.3}, {"fy": "2025", "I": 43.9, "II": 46.1, "III": 8.8, "IV": 1.2}], "Data Scientist": [{"fy": "2023", "I": 21.5, "II": 48.8, "III": 19.6, "IV": 10.0}, {"fy": "2024", "I": 23.1, "II": 49.8, "III": 18.1, "IV": 9.0}, {"fy": "2025", "I": 24.4, "II": 46.0, "III": 19.7, "IV": 9.9}]}, "heatmap": [{"role": "Data Analyst", "I": -7.5, "I_n": 3348, "II": -3.9, "II_n": 3482, "III": 6.8, "III_n": 623, "IV": -1.3, "IV_n": 249}, {"role": "Data Scientist", "I": -13.0, "I_n": 2831, "II": -2.1, "II_n": 5907, "III": 2.4, "III_n": 2355, "IV": 8.6, "IV_n": 1187}, {"role": "Data Engineer", "I": -9.9, "I_n": 2554, "II": -1.1, "II_n": 4313, "III": 1.9, "III_n": 815, "IV": 18.9, "IV_n": 329}, {"role": "Business Intelligence", "I": -11.1, "I_n": 1154, "II": -6.7, "II_n": 1458, "III": -0.3, "III_n": 280, "IV": 5.8, "IV_n": 76}, {"role": "Data Architect", "I": -6.6, "I_n": 46, "II": -10.0, "II_n": 114, "III": -8.6, "III_n": 55, "IV": -3.9, "IV_n": 24}], "employers": [{"name": "Capital One", "n": 232, "kind": "银行"}, {"name": "Kforce", "n": 163, "kind": "派遣"}, {"name": "Exlservicecom", "n": 94, "kind": "外包"}, {"name": "Wells Fargo Bank", "n": 93, "kind": "银行"}, {"name": "Capgemini America", "n": 77, "kind": "咨询"}, {"name": "Wal-Mart Associates", "n": 72, "kind": "零售"}, {"name": "Deloitte & Touche", "n": 67, "kind": "咨询"}, {"name": "Solstice Solutions", "n": 62, "kind": "外包"}, {"name": "Citibank", "n": 60, "kind": "银行"}, {"name": "Intuit", "n": 47, "kind": "科技"}, {"name": "Zs Associates", "n": 44, "kind": "咨询"}, {"name": "Onemain General", "n": 44, "kind": "其他"}, {"name": "Johns Hopkins University", "n": 34, "kind": "其他"}, {"name": "Tiger Analytics", "n": 34, "kind": "其他"}], "geo": {"Data Analyst": [{"city": "New York", "n": 606, "pct": 6.7}, {"city": "Chicago", "n": 253, "pct": 2.8}, {"city": "Mclean", "n": 206, "pct": 2.3}, {"city": "Dallas", "n": 186, "pct": 2.1}, {"city": "Boston", "n": 173, "pct": 1.9}, {"city": "Atlanta", "n": 168, "pct": 1.9}, {"city": "Plano", "n": 154, "pct": 1.7}, {"city": "Houston", "n": 146, "pct": 1.6}, {"city": "Charlotte", "n": 145, "pct": 1.6}, {"city": "Irving", "n": 137, "pct": 1.5}, {"city": "Jersey City", "n": 135, "pct": 1.5}, {"city": "San Francisco", "n": 123, "pct": 1.4}], "Data Scientist": [{"city": "New York", "n": 1095, "pct": 8.1}, {"city": "San Jose", "n": 714, "pct": 5.3}, {"city": "Seattle", "n": 665, "pct": 4.9}, {"city": "San Francisco", "n": 509, "pct": 3.7}, {"city": "Sunnyvale", "n": 425, "pct": 3.1}, {"city": "Bellevue", "n": 399, "pct": 2.9}, {"city": "San Diego", "n": 321, "pct": 2.4}, {"city": "Chicago", "n": 296, "pct": 2.2}, {"city": "Boston", "n": 278, "pct": 2.0}, {"city": "Santa Clara", "n": 275, "pct": 2.0}, {"city": "Palo Alto", "n": 272, "pct": 2.0}, {"city": "Atlanta", "n": 267, "pct": 2.0}], "Data Engineer": [{"city": "Irving", "n": 370, "pct": 4.2}, {"city": "Seattle", "n": 290, "pct": 3.3}, {"city": "New York", "n": 269, "pct": 3.0}, {"city": "Plano", "n": 263, "pct": 3.0}, {"city": "Austin", "n": 251, "pct": 2.8}, {"city": "Dallas", "n": 229, "pct": 2.6}, {"city": "San Jose", "n": 181, "pct": 2.0}, {"city": "Chicago", "n": 163, "pct": 1.8}, {"city": "Houston", "n": 160, "pct": 1.8}, {"city": "Atlanta", "n": 149, "pct": 1.7}, {"city": "Charlotte", "n": 133, "pct": 1.5}, {"city": "Frisco", "n": 133, "pct": 1.5}], "Business Intelligence": [{"city": "Seattle", "n": 243, "pct": 6.9}, {"city": "New York", "n": 175, "pct": 5.0}, {"city": "Bellevue", "n": 104, "pct": 3.0}, {"city": "Austin", "n": 92, "pct": 2.6}, {"city": "Dallas", "n": 77, "pct": 2.2}, {"city": "Houston", "n": 72, "pct": 2.0}, {"city": "Chicago", "n": 64, "pct": 1.8}, {"city": "Irving", "n": 59, "pct": 1.7}, {"city": "Plano", "n": 51, "pct": 1.5}, {"city": "Boston", "n": 48, "pct": 1.4}, {"city": "Atlanta", "n": 47, "pct": 1.3}, {"city": "Jersey City", "n": 43, "pct": 1.2}]}, "dist": [{"role": "Data Scientist", "n": 13123, "p10": 82056, "p25": 99000, "p50": 126277, "p75": 157800, "p90": 185000}, {"role": "Data Engineer", "n": 8257, "p10": 75000, "p25": 85000, "p50": 100000, "p75": 120400, "p90": 145600}, {"role": "Data Architect", "n": 243, "p10": 79492, "p25": 92040, "p50": 105746, "p75": 128057, "p90": 160000}, {"role": "Business Intelligence", "n": 3087, "p10": 70000, "p25": 80745, "p50": 92560, "p75": 112050, "p90": 135000}, {"role": "Data Analyst", "n": 7989, "p10": 65000, "p25": 74900, "p50": 87152, "p75": 104062, "p90": 125117}], "titles": {"unique": 304892, "total": 1760784, "once": 202291, "once_share": 11.5, "curve": [{"k": 1, "pct": 5.0}, {"k": 5, "pct": 11.7}, {"k": 10, "pct": 14.4}, {"k": 25, "pct": 19.4}, {"k": 50, "pct": 24.6}, {"k": 100, "pct": 30.5}, {"k": 250, "pct": 39.1}, {"k": 500, "pct": 46.0}, {"k": 1000, "pct": 52.9}, {"k": 2500, "pct": 61.1}, {"k": 5000, "pct": 66.8}, {"k": 10000, "pct": 71.8}, {"k": 25000, "pct": 77.8}, {"k": 50000, "pct": 82.5}, {"k": 100000, "pct": 88.2}, {"k": 304892, "pct": 100.0}]}};
+const $ = s => document.querySelector(s);
+const tip = $("#tip");
+const NS = "http://www.w3.org/2000/svg";
+const el = (t, a = {}) => { const n = document.createElementNS(NS, t);
+  for (const k in a) n.setAttribute(k, a[k]); return n; };
+function hover(node, html){
+  node.addEventListener("pointerenter", e => { tip.innerHTML = html; tip.classList.add("on"); });
+  node.addEventListener("pointermove", e => {
+    tip.style.left = Math.min(e.clientX + 14, innerWidth - 240) + "px";
+    tip.style.top  = (e.clientY - 12) + "px"; });
+  node.addEventListener("pointerleave", () => tip.classList.remove("on"));
+}
+const m = D.meta;
+$("#meta").textContent =
+  `已认证 ${m.certified_total.toLocaleString()} 件 · 数据岗 ${m.data_roles.toLocaleString()} 件 · `
+  + `新增岗位 ${m.new_positions.toLocaleString()} 件 · 薪资样本 ${m.wage_sample.toLocaleString()} 件 · `
+  + `FY2023→FY2025 通胀 ${m.cpi_fy2023_to_fy2025_pct}%`;
+
+function fig(title, why){
+  const f = document.createElement("figure");
+  const c = document.createElement("figcaption");
+  c.textContent = title;
+  const w = document.createElement("p"); w.className = "why"; w.textContent = why;
+  f.append(c, w); $("#out").appendChild(f); return f;
+}
+function table(f, head, rows){
+  const d = document.createElement("details");
+  d.innerHTML = "<summary>数据表</summary>";
+  const t = document.createElement("table");
+  t.innerHTML = "<tr>" + head.map(h => `<th>${h}</th>`).join("") + "</tr>"
+    + rows.map(r => "<tr>" + r.map(c => `<td>${c}</td>`).join("") + "</tr>").join("");
+  d.appendChild(t); f.appendChild(d);
+}
+
+/* ---------- ① ---------- */
+(() => {
+  const f = fig("① 招 Data Analyst 最多的，不是科技公司",
+    "新增岗位 Top 14 雇主里只有两家是纯科技公司。第一名是 Capital One（银行），其余是咨询、外包、派遣和零售。想做数据分析就去科技公司，这个直觉是错的。");
+  const data = D.employers, W = 820, rowH = 30, H = data.length * rowH + 14;
+  const max = Math.max(...data.map(d => d.n)), L = 186, R = 120;
+  const lg = document.createElement("div"); lg.className = "legend";
+  lg.innerHTML = `<span><i style="background:var(--s2)"></i>科技公司</span>`
+               + `<span><i style="background:var(--s1)"></i>银行 / 咨询 / 外包 / 派遣 / 零售</span>`;
+  f.appendChild(lg);
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img" });
+  data.forEach((d, i) => {
+    const y = i * rowH + 6, bw = (d.n / max) * (W - L - R);
+    const t = el("text", { x: L - 12, y: y + 16, "text-anchor": "end", class: "lbl" });
+    t.textContent = d.name;
+    const r = el("rect", { x: L, y: y + 3, width: Math.max(bw, 2), height: 18, rx: 4,
+      fill: d.kind === "科技" ? "var(--s2)" : "var(--s1)" });
+    hover(r, `<b>${d.name}</b><br>${d.kind} · ${d.n} 件新增 Data Analyst 岗位`);
+    const v = el("text", { x: L + bw + 10, y: y + 17, class: "val" });
+    v.textContent = `${d.n}  ${d.kind}`;
+    svg.append(t, r, v);
+  });
+  svg.append(el("line", { x1: L, y1: 2, x2: L, y2: H - 8, class: "base" }));
+  f.appendChild(svg);
+  const nt = document.createElement("p"); nt.className = "note";
+  nt.textContent = "Capital One 用两个法人实体分别申请（Capital One Services / Capital One National Association），已合并。不合并会漏掉真正的第一名。";
+  f.appendChild(nt);
+  table(f, ["雇主", "类型", "新增岗位"], data.map(d => [d.name, d.kind, d.n]));
+})();
+
+/* ---------- ② ---------- */
+(() => {
+  const f = fig("② 剔除续签前后，结论完全不同",
+    "同一份数据，只差一个筛选条件：含续签时 Data Analyst 三年只涨 5.5%，只看真正的新增岗位是 27.8%，全场最快。这张图是整个项目方法论的证据。");
+  const data = D.growth, W = 820, rowH = 52, H = data.length * rowH + 34;
+  const L = 168, R = 70, PW = W - L - R;
+  const lo = Math.min(-25, ...data.flatMap(d => [d.all_pct, d.new_pct]));
+  const hi = Math.max(30, ...data.flatMap(d => [d.all_pct, d.new_pct]));
+  const x = v => L + (v - lo) / (hi - lo) * PW;
+  const lg = document.createElement("div"); lg.className = "legend";
+  lg.innerHTML = `<span><i style="background:var(--s2)"></i>含续签（全部已认证）</span>`
+               + `<span><i style="background:var(--s1)"></i>只看新增岗位</span>`;
+  f.appendChild(lg);
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img" });
+  [-20,-10,0,10,20,30].forEach(v => {
+    if (v < lo || v > hi) return;
+    svg.append(el("line", { x1: x(v), y1: 6, x2: x(v), y2: H - 26, class: v === 0 ? "base" : "gl" }));
+    const t = el("text", { x: x(v), y: H - 10, "text-anchor": "middle", class: "ax" });
+    t.textContent = v + "%"; svg.append(t);
+  });
+  data.forEach((d, i) => {
+    const y = i * rowH + 10;
+    const lab = el("text", { x: L - 12, y: y + 24, "text-anchor": "end", class: "lbl" });
+    lab.textContent = d.role; svg.append(lab);
+    [["all_pct", "var(--s2)", 0], ["new_pct", "var(--s1)", 15]].forEach(([k, col, off]) => {
+      const v = d[k], x0 = Math.min(x(0), x(v)), bw = Math.abs(x(v) - x(0));
+      const r = el("rect", { x: x0, y: y + off, width: Math.max(bw, 2), height: 13, rx: 4, fill: col });
+      hover(r, `<b>${d.role}</b><br>${k === "all_pct" ? "含续签" : "只看新增岗位"}：${v > 0 ? "+" : ""}${v}%`);
+      const t = el("text", { x: v >= 0 ? x(v) + 7 : x(v) - 7, y: y + off + 11,
+        "text-anchor": v >= 0 ? "start" : "end", class: "val" });
+      t.textContent = (v > 0 ? "+" : "") + v + "%";
+      svg.append(r, t);
+    });
+  });
+  f.appendChild(svg);
+  table(f, ["角色", "含续签", "只看新增"], data.map(d =>
+    [d.role, (d.all_pct > 0 ? "+" : "") + d.all_pct + "%", (d.new_pct > 0 ? "+" : "") + d.new_pct + "%"]));
+})();
+
+/* ---------- ③ ---------- */
+(() => {
+  const f = fig("③ 顶尖的 Data Analyst，拿中位数 Data Scientist 的钱",
+    "箱体是 25 到 75 分位，白线是中位数，两端须线到 10 与 90 分位。Data Analyst 的 90 分位 $125K 几乎等于 Data Scientist 的中位数 $126K —— 只看中位数会漏掉这个重叠。");
+  const data = D.dist, W = 820, rowH = 54, H = data.length * rowH + 36;
+  const L = 186, R = 26, PW = W - L - R;
+  const lo = 55000, hi = 195000;
+  const x = v => L + (v - lo) / (hi - lo) * PW;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img" });
+  [60, 80, 100, 120, 140, 160, 180].forEach(k => {
+    const v = k * 1000;
+    svg.append(el("line", { x1: x(v), y1: 6, x2: x(v), y2: H - 26, class: "gl" }));
+    const t = el("text", { x: x(v), y: H - 10, "text-anchor": "middle", class: "ax" });
+    t.textContent = "$" + k + "K"; svg.append(t);
+  });
+  data.forEach((d, i) => {
+    const y = i * rowH + 12, cy = y + 16;
+    const lab = el("text", { x: L - 12, y: cy + 5, "text-anchor": "end", class: "lbl" });
+    lab.textContent = d.role; svg.append(lab);
+    svg.append(el("line", { x1: x(d.p10), y1: cy, x2: x(d.p90), y2: cy,
+      stroke: "var(--axis)", "stroke-width": 2 }));
+    [d.p10, d.p90].forEach(v => svg.append(el("line",
+      { x1: x(v), y1: cy - 6, x2: x(v), y2: cy + 6, stroke: "var(--axis)", "stroke-width": 2 })));
+    const box = el("rect", { x: x(d.p25), y: cy - 11, width: x(d.p75) - x(d.p25), height: 22, rx: 4,
+      fill: "var(--s1)", "fill-opacity": ".85" });
+    hover(box, `<b>${d.role}</b>　样本 ${d.n.toLocaleString()}<br>`
+      + `10% $${d.p10.toLocaleString()} · 25% $${d.p25.toLocaleString()}<br>`
+      + `<b>中位 $${d.p50.toLocaleString()}</b><br>`
+      + `75% $${d.p75.toLocaleString()} · 90% $${d.p90.toLocaleString()}`);
+    svg.append(box);
+    svg.append(el("line", { x1: x(d.p50), y1: cy - 11, x2: x(d.p50), y2: cy + 11,
+      stroke: "var(--surface)", "stroke-width": 2 }));
+    const v = el("text", { x: x(d.p50), y: cy + 30, "text-anchor": "middle", class: "val" });
+    v.textContent = "$" + Math.round(d.p50 / 1000) + "K"; svg.append(v);
+  });
+  f.appendChild(svg);
+  table(f, ["角色", "样本", "10%", "25%", "中位", "75%", "90%"],
+    data.map(d => [d.role, d.n.toLocaleString(), "$" + d.p10.toLocaleString(),
+      "$" + d.p25.toLocaleString(), "$" + d.p50.toLocaleString(),
+      "$" + d.p75.toLocaleString(), "$" + d.p90.toLocaleString()]));
+})();
+
+/* ---------- ④ ---------- */
+(() => {
+  const f = fig("④ 整个行业按职级分层，不是按角色",
+    "行是角色，列是政府认定的职级，颜色是实际薪资三年变化。每一行都是同一个梯度：入门级跌，资深涨。这说明分化的主轴是资历，不是你叫什么职位。");
+  const data = D.heatmap, LV = ["I","II","III","IV"];
+  const lo = -14, hi = 20;
+  const col = v => {
+    if (v === null) return "var(--neutral)";
+    if (v >= 0) { const t = Math.min(v / hi, 1); return `color-mix(in oklab, var(--s1) ${18 + t * 72}%, var(--neutral))`; }
+    const t = Math.min(v / lo, 1); return `color-mix(in oklab, #d03b3b ${18 + t * 72}%, var(--neutral))`;
+  };
+  const lg = document.createElement("div"); lg.className = "legend";
+  lg.innerHTML = `<span><i style="background:${col(-12)}"></i>实际薪资下跌</span>`
+    + `<span><i style="background:var(--neutral)"></i>持平</span>`
+    + `<span><i style="background:${col(16)}"></i>实际薪资上涨</span>`;
+  f.appendChild(lg);
+  const W = 820, L0 = 168, cw = (W - L0 - 8) / 4, ch = 46, H = data.length * ch + 30;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img" });
+  LV.forEach((L, i) => {
+    const t = el("text", { x: L0 + i * cw + cw / 2, y: 14, "text-anchor": "middle", class: "ax" });
+    t.textContent = "Level " + L; svg.append(t);
+  });
+  data.forEach((d, r) => {
+    const y = 24 + r * ch;
+    const lab = el("text", { x: L0 - 12, y: y + ch / 2 + 4, "text-anchor": "end", class: "lbl" });
+    lab.textContent = d.role; svg.append(lab);
+    LV.forEach((L, i) => {
+      const v = d[L], n = d[L + "_n"], x = L0 + i * cw;
+      const rect = el("rect", { x: x + 1, y: y + 1, width: cw - 3, height: ch - 3, rx: 4, fill: col(v) });
+      hover(rect, `<b>${d.role} · Level ${L}</b><br>实际薪资变化 ${v > 0 ? "+" : ""}${v}%<br>样本 ${n.toLocaleString()} 件`
+        + (n < 120 ? "<br><i>样本偏小，谨慎解读</i>" : ""));
+      const t = el("text", { x: x + cw / 2, y: y + ch / 2 + 5, "text-anchor": "middle", class: "val" });
+      t.setAttribute("fill", Math.abs(v) > 8 ? "#fff" : "var(--ink)");
+      t.textContent = (v > 0 ? "+" : "") + v + "%";
+      svg.append(rect, t);
+    });
+  });
+  f.appendChild(svg);
+  const nt = document.createElement("p"); nt.className = "note";
+  nt.textContent = "Data Architect 各格样本仅 24–114 件，波动大，不宜单独下结论。其余各格样本 249–5,907 件。";
+  f.appendChild(nt);
+  table(f, ["角色", "Level I", "II", "III", "IV"],
+    data.map(d => [d.role, ...LV.map(L => (d[L] > 0 ? "+" : "") + d[L] + "%")]));
+})();
+
+/* ---------- ⑤ ---------- */
+(() => {
+  const T = D.titles;
+  const f = fig("⑤ 为什么这份数据必须做文本清洗",
+    `176 万条申请里有 ${T.unique.toLocaleString()} 种不同的职位名写法。前 100 种只覆盖 30.5%，要覆盖一半得看到第 1,000 种。${T.once.toLocaleString()} 种写法只出现过一次，占全部写法的 66%。任何靠关键词直接筛的做法，在这条曲线面前都站不住。`);
+  const pts = T.curve, W = 820, H = 300, L = 60, R = 56, TP = 14, B = 42;
+  const PW = W - L - R, PH = H - TP - B;
+  const lx = v => L + (Math.log10(v) / Math.log10(T.unique)) * PW;
+  const ly = p => TP + (1 - p / 100) * PH;
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img" });
+  [0, 25, 50, 75, 100].forEach(p => {
+    svg.append(el("line", { x1: L, y1: ly(p), x2: W - R, y2: ly(p), class: p === 0 ? "base" : "gl" }));
+    const t = el("text", { x: L - 10, y: ly(p) + 4, "text-anchor": "end", class: "ax" });
+    t.textContent = p + "%"; svg.append(t);
+  });
+  [1, 10, 100, 1000, 10000, 100000].forEach(k => {
+    svg.append(el("line", { x1: lx(k), y1: TP, x2: lx(k), y2: ly(0), class: "gl" }));
+    const t = el("text", { x: lx(k), y: H - 22, "text-anchor": "middle", class: "ax" });
+    t.textContent = k >= 1000 ? (k / 1000) + "K" : String(k); svg.append(t);
+  });
+  svg.append(el("path", {
+    d: pts.map((p, i) => (i ? "L" : "M") + lx(p.k) + " " + ly(p.pct)).join(" "),
+    fill: "none", stroke: "var(--s1)", "stroke-width": 2,
+    "stroke-linejoin": "round", "stroke-linecap": "round" }));
+  pts.forEach(p => {
+    const c = el("circle", { cx: lx(p.k), cy: ly(p.pct), r: 4.5, fill: "var(--s1)",
+      stroke: "var(--surface)", "stroke-width": 2 });
+    hover(c, `前 <b>${p.k.toLocaleString()}</b> 种职位名<br>覆盖 <b>${p.pct}%</b> 的申请`);
+    svg.append(c);
+  });
+  [100, 1000].forEach(k => {
+    const p = pts.find(x => x.k === k); if (!p) return;
+    const t = el("text", { x: lx(k) + 9, y: ly(p.pct) - 9, class: "val" });
+    t.textContent = `前 ${k.toLocaleString()} 种 → ${p.pct}%`; svg.append(t);
+  });
+  const xt = el("text", { x: L + PW / 2, y: H - 4, "text-anchor": "middle", class: "ax" });
+  xt.textContent = "不重复职位名数量（对数轴）"; svg.append(xt);
+  f.appendChild(svg);
+  table(f, ["前 N 种写法", "覆盖申请量"], pts.map(p => [p.k.toLocaleString(), p.pct + "%"]));
+})();
+
+
+</script>
